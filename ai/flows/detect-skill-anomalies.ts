@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview An AI agent that detects and explains anomalies in skill demand data.
+ * @fileOverview An AI agent that detects and explains anomalies in skill demand data for any set of skills.
  *
  * - detectSkillAnomalies - A function that identifies significant shifts in skill trends.
  * - DetectSkillAnomaliesInput - The input type for the detectSkillAnomalies function.
@@ -14,13 +14,9 @@ import { z } from 'genkit';
 const DetectSkillAnomaliesInputSchema = z.object({
   trends: z
     .array(
-      z.object({
-        month: z.string(),
-        'AI Ops': z.number(),
-        'Manual QA': z.number(),
-      })
+      z.record(z.string(), z.number()) // Dynamic key-value pairs for skill names and their values
     )
-    .describe('An array of weekly skill trend data.'),
+    .describe('An array of weekly skill trend data with dynamic skill names.'),
 });
 export type DetectSkillAnomaliesInput = z.infer<
   typeof DetectSkillAnomaliesInputSchema
@@ -56,20 +52,20 @@ const prompt = ai.definePrompt({
   name: 'detectSkillAnomaliesPrompt',
   input: { schema: DetectSkillAnomaliesInputSchema },
   output: { schema: DetectSkillAnomaliesOutputSchema },
-  prompt: `You are an autonomous workforce intelligence agent. Your task is to detect and explain anomalies in skill demand data. Analyze the following 6-month trend data and identify the most significant changes.
+  prompt: `You are an autonomous workforce intelligence agent. Your task is to detect and explain anomalies in skill demand data. Analyze the following trend data and identify the most significant changes.
 
   Determine if the changes are normal seasonal variations or represent a more significant emerging or declining skill trend. Explain your reasoning. Classify the skills accordingly.
 
-  Focus on the most meaningful insight. Analyze the relationship between 'AI Ops' and 'Manual QA'. Explain the divergence you see.
+  Focus on the most meaningful insights. Identify any divergences, spikes, drops, or emerging/declining trends among the skills.
   
-  Calculate the percentage change for both skills from the start to the end of the period. Frame the primary anomaly as a "divergence" between these two skills. Classify 'AI Ops' as an 'emerging' trend and 'Manual QA' as a 'declining' trend in your explanation.
+  Calculate the percentage changes for skills from the start to the end of the period. Identify which skills are showing significant changes and classify them appropriately (emerging, declining, spike, drop, divergence).
 
   Skill Trend Data:
   {{#each trends}}
-  - Month: {{month}}, AI Ops Demand: {{'AI Ops'}}, Manual QA Demand: {{'Manual QA'}}
+  - {{#each this}} {{@key}}: {{this}} {{/each}}
   {{/each}}
   
-  Generate one or two key anomaly insights. For the primary 'divergence' insight, provide a compelling explanation for this market shift, considering automation and the evolution of tech roles. The consistent monthly increase in 'AI Ops' and decrease in 'Manual QA' indicates a structural market shift, not seasonal fluctuation.`,
+  Generate key anomaly insights based on the most significant changes you observe. Provide compelling explanations for these market shifts, considering automation and the evolution of tech roles.`,
 });
 
 const detectSkillAnomaliesFlow = ai.defineFlow(
