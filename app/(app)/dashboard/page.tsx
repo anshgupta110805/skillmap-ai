@@ -40,7 +40,16 @@ function SkillShockAlerts() {
     async function getAnomalies() {
       setIsLoading(true);
       try {
-        const output = await detectSkillAnomalies({ trends: skillTrendData });
+        const numericTrends: Record<string, number>[] = skillTrendData.map(item => {
+          const numericValues: Record<string, number> = {};
+          for (const [key, value] of Object.entries(item)) {
+            if (key !== 'month' && typeof value === 'number') {
+              numericValues[key] = value;
+            }
+          }
+          return numericValues;
+        });
+        const output = await detectSkillAnomalies({ trends: numericTrends });
         setResult(output);
       } catch (error) {
         console.error('Error detecting skill anomalies:', error);
