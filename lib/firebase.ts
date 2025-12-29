@@ -1,5 +1,5 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { getAnalytics, isSupported } from 'firebase/analytics';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { getAnalytics, isSupported, Analytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,8 +11,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let app;
-let analytics;
+let app: FirebaseApp;
+let analytics: Analytics | undefined;
 
 if (getApps().length === 0) {
   app = initializeApp(firebaseConfig);
