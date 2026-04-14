@@ -1,18 +1,15 @@
 'use client';
 
 import {
-  AlertTriangle,
-  BarChart2,
-  BrainCircuit,
-  Compass,
-  GitGraph,
-  Home,
-  Landmark,
+  LayoutDashboard,
+  Zap,
+  Route,
+  Ship,
   Map,
-  MoveRight,
-  Sparkles,
-  Target,
-  Users,
+  GraduationCap,
+  Eye,
+  FileText,
+  Settings,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,20 +23,22 @@ const navItems = [
   {
     href: '/dashboard',
     label: 'Dashboard',
-    icon: <Home />,
+    icon: <LayoutDashboard />,
   },
   {
-    href: '/explore',
-    label: 'Explore Tools',
-    icon: <Compass />,
+    href: '/skills',
+    label: 'Skills Intelligence',
+    icon: <Zap />,
   },
-];
-
-const primaryTools = [
-    {
-    href: '/career-planner',
-    label: 'AI Career Planner',
-    icon: <BrainCircuit />,
+  {
+    href: '/career-routes',
+    label: 'Career Routes',
+    icon: <Route />,
+  },
+  {
+    href: '/migration',
+    label: 'Migration Simulator',
+    icon: <Ship />,
   },
   {
     href: '/city-intelligence',
@@ -47,39 +46,26 @@ const primaryTools = [
     icon: <Map />,
   },
   {
-    href: '/migration-assistant',
-    label: 'Migration Assistant',
-    icon: <MoveRight />,
+    href: '/learning-path',
+    label: 'Learning Path',
+    icon: <GraduationCap />,
   },
-    {
-    href: '/skill-extractor',
-    label: 'Skill Extractor',
-    icon: <Sparkles />,
+  {
+    href: '/watchlist',
+    label: 'Watchlist',
+    icon: <Eye />,
   },
-]
-
-const advancedTools = [
-    {
-    href: '/migration-simulator',
-    label: 'Migration Simulator',
-    icon: <Users />,
+  {
+    href: '/report',
+    label: 'Career DNA Report',
+    icon: <FileText />,
   },
-    {
-    href: '/skill-graph',
-    label: 'Skill Graph',
-    icon: <GitGraph />,
+  {
+    href: '/settings',
+    label: 'Settings',
+    icon: <Settings />,
   },
-     {
-    href: '/policy-advisor',
-    label: 'Policy Advisor',
-    icon: <Landmark />,
-  },
-     {
-    href: '/workforce-twin',
-    label: 'Workforce Twin',
-    icon: <Users />,
-  },
-]
+];
 
 export function Nav() {
   const pathname = usePathname();
@@ -87,40 +73,6 @@ export function Nav() {
   return (
     <SidebarMenu>
       {navItems.map((item) => (
-        <SidebarMenuItem key={item.href}>
-          <SidebarMenuButton
-            asChild
-            isActive={pathname === item.href}
-            tooltip={item.label}
-          >
-            <Link href={item.href}>
-              {item.icon}
-              <span>{item.label}</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-      <SidebarMenuItem>
-        <span className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider group-data-[collapsible=icon]:hidden">Tools</span>
-      </SidebarMenuItem>
-      {primaryTools.map((item) => (
-        <SidebarMenuItem key={item.href}>
-          <SidebarMenuButton
-            asChild
-            isActive={pathname === item.href}
-            tooltip={item.label}
-          >
-            <Link href={item.href}>
-              {item.icon}
-              <span>{item.label}</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-       <SidebarMenuItem>
-        <span className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider group-data-[collapsible=icon]:hidden">Advanced AI</span>
-      </SidebarMenuItem>
-       {advancedTools.map((item) => (
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild

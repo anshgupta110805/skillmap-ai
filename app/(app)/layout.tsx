@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import { UserNav } from '@/components/user-nav';
 import { Separator } from '@/components/ui/separator';
+import { CopilotWidget } from '@/components/copilot/CopilotWidget';
 
 export default function AppLayout({
   children,
@@ -59,6 +60,7 @@ export default function AppLayout({
             </SidebarTrigger>
           </header>
           <div className="p-4 sm:p-6 lg:p-8">{children}</div>
+          <CopilotWidget />
         </SidebarInset>
       </SidebarProvider>
     </AuthGuard>
